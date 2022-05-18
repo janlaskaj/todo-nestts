@@ -4,6 +4,7 @@ import { AppModule } from '../src/app.module'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { AuthDto } from '../src/auth/dto'
+import { EditUserDto } from '../src/user/dto'
 
 describe('App E2E', () => {
     let app: INestApplication
@@ -98,7 +99,25 @@ describe('App E2E', () => {
                     .expectStatus(200)
             })
         })
-        describe('Edit user', () => {})
+        describe('Edit user', () => {
+            it('should edit current user', () => {
+                const dto: EditUserDto = {
+                    firstName: 'Saša',
+                    email: 'test@lol.com',
+                }
+
+                return pactum
+                    .spec()
+                    .patch('/users')
+                    .withHeaders({
+                        Authorization: 'Bearer $S{userAt}',
+                    })
+                    .withBody(dto)
+                    .expectStatus(200)
+                    .expectBodyContains(dto.firstName)
+                    .expectBodyContains(dto.email)
+            })
+        })
     })
     describe('Bookmark', () => {
         describe('Create bookmark', () => {})
