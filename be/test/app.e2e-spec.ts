@@ -4,7 +4,7 @@ import { AppModule } from '../src/app.module'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { AuthDto } from '../src/auth/dto'
-import { EditUserDto } from '../src/user/dto'
+import { CreateBookmarkDto } from '../src/bookmark/dto'
 
 describe('App E2E', () => {
     let app: INestApplication
@@ -99,29 +99,45 @@ describe('App E2E', () => {
                     .expectStatus(200)
             })
         })
-        describe('Edit user', () => {
-            it('should edit current user', () => {
-                const dto: EditUserDto = {
-                    firstName: 'Saša',
-                    email: 'test@lol.com',
+    })
+
+    describe('Bookmark', () => {
+        describe('Create bookmark', () => {
+            it('should create bookmark', () => {
+                const dto: CreateBookmarkDto = {
+                    title: 'Test title',
                 }
 
                 return pactum
                     .spec()
-                    .patch('/users')
+                    .post('/bookmarks')
+                    .withHeaders({
+                        Authorization: 'Bearer $S{userAt}',
+                    })
+                    .withBody(dto)
+                    .expectStatus(201)
+                    .expectBodyContains(dto.title)
+                    .stores('bookmarkId', 'id')
+            })
+        })
+        describe('Get bookmarks', () => {
+            it('should get bookmarks', () => {
+                const dto: CreateBookmarkDto = {
+                    title: 'Test title',
+                }
+
+                return pactum
+                    .spec()
+                    .get('/bookmarks')
                     .withHeaders({
                         Authorization: 'Bearer $S{userAt}',
                     })
                     .withBody(dto)
                     .expectStatus(200)
-                    .expectBodyContains(dto.firstName)
-                    .expectBodyContains(dto.email)
+                    .expectBodyContains(dto.title)
+                    .inspect()
             })
         })
-    })
-    describe('Bookmark', () => {
-        describe('Create bookmark', () => {})
-        describe('Get bookmarks', () => {})
         describe('Get bookmark by id', () => {})
         describe('Edit bookmark by id', () => {})
         describe('Delete bookmark by id', () => {})

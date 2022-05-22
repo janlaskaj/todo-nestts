@@ -20,7 +20,9 @@ export class BookmarkController {
     constructor(private bookmarkService: BookmarkService) {}
 
     @Get()
-    getBookmarks(@GetUser('id') userId: number) {}
+    async getBookmarks(@GetUser('id') userId: number) {
+        return await this.bookmarkService.getBookmarks()
+    }
 
     @Get(':id')
     getBookmarkById(
@@ -33,7 +35,6 @@ export class BookmarkController {
         @GetUser('id') userId: number,
         @Body() dto: CreateBookmarkDto
     ) {
-        console.log(userId)
         return await this.bookmarkService.createBookmark(dto, userId)
     }
 
