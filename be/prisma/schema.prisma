@@ -22,7 +22,7 @@ model User {
   lastName  String?
 
   bookmarks Bookmark[]
-  Todo Todo[]
+  todo Todo[]
 
   @@map("users")
 }

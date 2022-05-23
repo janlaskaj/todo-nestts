@@ -5,6 +5,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { AuthDto } from '../src/auth/dto'
 import { CreateBookmarkDto } from '../src/bookmark/dto'
+import { CreateTodoDto } from '../src/todo/dto/create-todo.dto'
 
 describe('App E2E', () => {
     let app: INestApplication
@@ -99,6 +100,34 @@ describe('App E2E', () => {
                     .expectStatus(200)
             })
         })
+    })
+
+    describe('Todo', () => {
+        describe('Create todo', () => {
+            it('should create todo', () => {
+                const dto: CreateTodoDto = {
+                    title: 'test title',
+                    description: 'test description',
+                }
+
+                return pactum
+                    .spec()
+                    .post('/todo')
+                    .withHeaders({
+                        Authorization: 'Bearer $S{userAt}',
+                    })
+                    .withBody(dto)
+                    .expectStatus(201)
+                    .expectBodyContains(dto.title)
+                    .expectBodyContains(dto.description)
+            })
+        })
+        describe('Get todos', () => {
+            it('should get todos', () => {})
+        })
+        describe('Get todo by id', () => {})
+        describe('Edit todo by id', () => {})
+        describe('Delete todo by id', () => {})
     })
 
     describe('Bookmark', () => {

@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
 import { BookmarkModule } from './bookmark/bookmark.module'
 import { PrismaModule } from './prisma/prisma.module'
+import { TodoModule } from './todo/todo.module'
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { PrismaModule } from './prisma/prisma.module'
         UserModule,
         BookmarkModule,
         PrismaModule,
+        TodoModule,
     ],
     controllers: [],
     providers: [],
