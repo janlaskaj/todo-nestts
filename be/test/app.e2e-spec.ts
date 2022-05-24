@@ -4,9 +4,7 @@ import { AppModule } from '../src/app.module'
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { AuthDto } from '../src/auth/dto'
-import { CreateBookmarkDto } from '../src/bookmark/dto'
 import { CreateTodoDto } from '../src/todo/dto/create-todo.dto'
-import { EditUserDto } from '../src/user/dto'
 import { EditTodoDto } from '../src/todo/dto/edit-todo.dto'
 
 describe('App E2E', () => {
@@ -256,46 +254,5 @@ describe('App E2E', () => {
                     .expectStatus(404)
             })
         })
-    })
-
-    describe('Bookmark', () => {
-        describe('Create bookmark', () => {
-            it('should create bookmark', () => {
-                const dto: CreateBookmarkDto = {
-                    title: 'Test title',
-                }
-
-                return pactum
-                    .spec()
-                    .post('/bookmarks')
-                    .withHeaders({
-                        Authorization: 'Bearer $S{userAt}',
-                    })
-                    .withBody(dto)
-                    .expectStatus(201)
-                    .expectBodyContains(dto.title)
-                    .stores('bookmarkId', 'id')
-            })
-        })
-        describe('Get bookmarks', () => {
-            it('should get bookmarks', () => {
-                const dto: CreateBookmarkDto = {
-                    title: 'Test title',
-                }
-
-                return pactum
-                    .spec()
-                    .get('/bookmarks')
-                    .withHeaders({
-                        Authorization: 'Bearer $S{userAt}',
-                    })
-                    .withBody(dto)
-                    .expectStatus(200)
-                    .expectBodyContains(dto.title)
-            })
-        })
-        describe('Get bookmark by id', () => {})
-        describe('Edit bookmark by id', () => {})
-        describe('Delete bookmark by id', () => {})
     })
 })
