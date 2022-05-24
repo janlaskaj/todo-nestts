@@ -51,7 +51,6 @@ export class TodoService {
     }
 
     async editTodo(todoId: number, dto: EditTodoDto) {
-        console.log(dto)
         if (!dto.title && !dto.description)
             throw new BadRequestException('no input provided')
 
@@ -77,5 +76,23 @@ export class TodoService {
 
     async deleteTodo(todoId: number) {
         return await this.prisma.todo.delete({ where: { id: todoId } })
+    }
+
+    async toggleTodo(todoId: number) {
+        let done: boolean
+        try {
+            const todo = await this.prisma.todo.findUnique({
+                where: { id: todoId },
+            })
+
+            done = !todo.done
+        } catch (e) {
+            throw new BadRequestException(e)
+        }
+
+        return await this.prisma.todo.update({
+            where: { id: todoId },
+            data: { done },
+        })
     }
 }

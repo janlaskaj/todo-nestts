@@ -50,4 +50,9 @@ export class TodoController {
     deleteTodo(@Param('id', ParseIntPipe) todoId: number) {
         return this.todoService.deleteTodo(todoId)
     }
+
+    @Post('toggle/:id')
+    toggleTodo(@Param('id', ParseIntPipe) todoId: number) {
+        return this.todoService.toggleTodo(todoId)
+    }
 }

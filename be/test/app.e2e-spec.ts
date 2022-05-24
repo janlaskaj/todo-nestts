@@ -233,6 +233,21 @@ describe('App E2E', () => {
                     .expectBodyContains(editDto2.description)
             })
         })
+
+        describe('Toggle todo status', () => {
+            it('should toggle todo status', function () {
+                return pactum
+                    .spec()
+                    .post('/todo/toggle/$S{todoId}')
+                    .withHeaders({
+                        Authorization: 'Bearer $S{userAt}',
+                    })
+                    .expectStatus(201)
+                    .expectBodyContains('true')
+                    .inspect()
+            })
+        })
+
         describe('Delete todo by id', () => {
             it('should delete todo ', () => {
                 return pactum
