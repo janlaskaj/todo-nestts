@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { useLogin } from '../hooks/useLogin'
 import { useLoginContext } from '../context/LoginContext'
 import { useRouter } from 'next/router'
+import { Button } from '../components/Button'
 
 const LoginPage: NextPage = () => {
+    // TODO: make this not retarded
     const [email, setEmail] = useState('jan@laskaj.com')
     const [password, setPassword] = useState('1234')
     const router = useRouter()
@@ -14,6 +16,9 @@ const LoginPage: NextPage = () => {
     if (user) router.push('/')
 
     if (isLoading) return <span>loading...</span>
+
+    console.log(email)
+    console.log(password)
 
     return (
         <div className="w-full flex flex-col justify-center items-center mt-4">
@@ -37,15 +42,12 @@ const LoginPage: NextPage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     className="border-2 p-1"
                 />
-                <button
-                    type={'submit'}
+                <Button
+                    text="Submit"
                     onClick={() => {
                         mutate()
                     }}
-                    className="border-2 p-1"
-                >
-                    Submit
-                </button>
+                />
             </form>
         </div>
     )
