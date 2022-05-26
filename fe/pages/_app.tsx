@@ -11,8 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     const queryClient = new QueryClient()
 
     return (
-        <LoginProvider>
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <LoginProvider>
                 <Head>
                     <link rel="shortcut icon" href="/favicon.png" />
                 </Head>
@@ -20,8 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <Component {...pageProps} />
                 </Layout>
                 <ReactQueryDevtools initialIsOpen={true} />
-            </QueryClientProvider>
-        </LoginProvider>
+            </LoginProvider>
+        </QueryClientProvider>
     )
 }
 
