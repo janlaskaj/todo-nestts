@@ -5,7 +5,7 @@ import { User, useSetLoginContext } from '../context/LoginContext'
 export const useLogin = (email: string, password: string) => {
     const setLogin = useSetLoginContext()
 
-    const { mutate, error } = useMutation(async () => {
+    const mutation = useMutation(async () => {
         try {
             const res = await fetch('http://127.0.0.1:4000/auth/signin', {
                 headers: {
@@ -20,10 +20,10 @@ export const useLogin = (email: string, password: string) => {
             const user = jwt_decode<User>(body.access_token)
 
             setLogin(user)
-        } catch (e) {
-            return e
+        } catch (error) {
+            return error
         }
     })
 
-    return { mutate, error }
+    return mutation
 }

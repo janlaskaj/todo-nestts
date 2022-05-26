@@ -1,10 +1,16 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useLoginContext, useSetLoginContext } from '../context/LoginContext'
 
 export const Header = () => {
     const router = useRouter()
-    const query = router.query
-    console.log(query)
+    const user = useLoginContext()
+    const setUser = useSetLoginContext()
+
+    const handleLogout = () => {
+        setUser(null)
+        router.push('/login')
+    }
 
     return (
         <header className="flex p-2 gap-4 items-center border-b border-fuchsia-300 shadow-lg">
@@ -15,6 +21,24 @@ export const Header = () => {
             <Link href="/">
                 <a className="font-bold text-2xl text-fuchsia-600">ToDos</a>
             </Link>
+            <div className="flex-grow" />
+            {user ? (
+                <>
+                    <span>{user.email}</span>
+                    <button
+                        className="px-4 py-2 rounded bg-fuchsia-600 hover:bg-fuchsia-700 transition-colors text-white font-bold"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+                </>
+            ) : (
+                <Link href="/login">
+                    <a className="px-4 py-2 rounded bg-fuchsia-600 hover:bg-fuchsia-700 transition-colors text-white font-bold">
+                        Login
+                    </a>
+                </Link>
+            )}
         </header>
     )
 }
