@@ -38,7 +38,10 @@ export const LoginForm: React.FC = () => {
         },
         {
             onSuccess: async (data) => {
-                const response = await data.json()
+                const response: {
+                    message?: string
+                    access_token?: string
+                } = await data.json()
 
                 if (response.access_token) {
                     const user: Pick<User, 'sub' | 'email' | 'iat' | 'exp'> =
