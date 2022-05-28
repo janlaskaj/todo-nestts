@@ -5,6 +5,7 @@ export type User = {
     email: string
     iat: number
     exp: number
+    token: string
 }
 
 const LoginContext = React.createContext<User | null>(null)
