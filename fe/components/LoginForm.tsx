@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import React from 'react'
+import { Formik, Form, Field } from 'formik'
 import { Button } from './Button'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import {
     useLoginContext,
     User,
@@ -16,18 +16,15 @@ export type LoginValues = {
     password: string
 }
 
-type Props = {}
-
-export const LoginForm: React.FC<Props> = () => {
+export const LoginForm: React.FC = () => {
     const router = useRouter()
     const user = useLoginContext()
     const setUser = useSetLoginContext()
 
-    const { mutate, error } = useMutation<
+    const { mutate, error, data } = useMutation<
         Response,
         Error | undefined,
-        LoginValues,
-        unknown
+        LoginValues
     >(
         (values) => {
             return fetch('http://127.0.0.1:4000/auth/signin', {
@@ -58,6 +55,8 @@ export const LoginForm: React.FC<Props> = () => {
                         statusCode: data.status,
                     })
                 }
+
+                return response
             },
         }
     )
