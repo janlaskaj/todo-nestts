@@ -21,7 +21,7 @@ export const LoginForm: React.FC = () => {
     const user = useLoginContext()
     const setUser = useSetLoginContext()
 
-    const { mutate, error, data } = useMutation<
+    const { mutate, error } = useMutation<
         Response,
         Error | undefined,
         LoginValues
