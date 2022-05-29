@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import { useLoginContext } from '../context/LoginContext'
 import { useQuery } from 'react-query'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import Error from 'next/error'
+import { TodoList } from '../components/TodoList'
 
-type Todo = {
+export type Todo = {
     id: number
     userId: number
     title: string
@@ -13,10 +13,11 @@ type Todo = {
 }
 
 const Home: NextPage = () => {
-    const router = useRouter()
     const user = useLoginContext()
-    const { data, error } = useQuery<Todo[]>('todos', async () => {
-        if (!user) return new Error('User not logged in')
+    const { data, error } = useQuery<Todo[], Error>('todos', async () => {
+        if (!user)
+            return new Error({ title: 'User not logged in', statusCode: 401 })
+
         const response = await fetch('http://127.0.0.1:4000/todo', {
             method: 'GET',
             headers: {
@@ -26,23 +27,19 @@ const Home: NextPage = () => {
             },
         })
         if (!response.ok) {
-            throw new Error('Network response was not ok')
+            throw new Error({
+                title: 'Network response was not ok',
+                statusCode: response.status,
+            })
         }
         return response.json()
     })
 
-    console.log(error)
-    console.log(data)
+    if (error) return <span>{Error.name}</span>
 
-    if (error) return <span>{}</span>
+    if (!data) return <span>loading...</span>
 
-    // useEffect(() => {
-    //     if (!user) {
-    //         router.push('/login')
-    //     }
-    // }, [user])
-
-    return <div></div>
+    return <>{data.length > 0 && <TodoList todos={data} />}</>
 }
 
 export default Home

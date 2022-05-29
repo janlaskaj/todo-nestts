@@ -8,6 +8,6 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children }) => (
     <div className="h-screen min-w-full flex flex-col">
         <Header />
-        {children}
+        <div className="flex flex-col w-full items-center">{children}</div>
     </div>
 )
