@@ -1,4 +1,3 @@
-import { useMutation } from 'react-query'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useLoginContext } from '../context/LoginContext'
@@ -11,7 +10,7 @@ const LoginPage: NextPage = () => {
     if (user) router.push('/')
 
     return (
-        <div className="w-full flex flex-col justify-center items-center mt-4">
+        <div className="mt-4 flex w-full flex-col items-center justify-center">
             <LoginForm />
         </div>
     )
