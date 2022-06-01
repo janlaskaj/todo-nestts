@@ -4,6 +4,8 @@ import { useLoginContext } from '../context/LoginContext'
 import { useQuery } from 'react-query'
 import Error from 'next/error'
 import { TodoList } from '../components/TodoList'
+import { TodoForm } from '../components/TodoForm'
+import React from 'react'
 
 export type Todo = {
     id: number
@@ -56,7 +58,12 @@ const Home: NextPage = () => {
 
     if (!data) return <span>loading...</span>
 
-    return <>{data.length > 0 && <TodoList todos={data} refetch={refetch} />}</>
+    return (
+        <>
+            <TodoForm refetch={refetch} />
+            {data.length > 0 && <TodoList todos={data} />}
+        </>
+    )
 }
 
 export default Home
