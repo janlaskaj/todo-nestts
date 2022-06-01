@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import { useLoginContext } from '../context/LoginContext'
 import { useQuery } from 'react-query'
 import Error from 'next/error'
@@ -14,6 +15,7 @@ export type Todo = {
 
 const Home: NextPage = () => {
     const user = useLoginContext()
+
     const { data, error, refetch } = useQuery<Todo[], Error>(
         'todos',
         async () => {
@@ -40,6 +42,15 @@ const Home: NextPage = () => {
             return response.json()
         }
     )
+
+    if (!user)
+        return (
+            <Link href="/login">
+                <a className="my-6 cursor-pointer text-gray-400 underline transition-all hover:text-lg hover:text-gray-500">
+                    you need to be logged in to use the app...
+                </a>
+            </Link>
+        )
 
     if (error) return <span>{Error.name}</span>
 

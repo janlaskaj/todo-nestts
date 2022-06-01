@@ -65,8 +65,8 @@ export const LoginForm: React.FC = () => {
     return (
         <Formik<LoginValues>
             initialValues={{
-                email: 'jan@laskaj.com',
-                password: '1234',
+                email: '',
+                password: '',
             }}
             onSubmit={(values) => {
                 mutate(values)
