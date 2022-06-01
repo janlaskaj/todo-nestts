@@ -21,11 +21,7 @@ export const LoginForm: React.FC = () => {
     const user = useLoginContext()
     const setUser = useSetLoginContext()
 
-    const { mutate, error } = useMutation<
-        Response,
-        Error | undefined,
-        LoginValues
-    >(
+    const { mutate, error } = useMutation<Response, Error, LoginValues>(
         (values) => {
             return fetch('http://127.0.0.1:4000/auth/signin', {
                 headers: {
@@ -76,7 +72,7 @@ export const LoginForm: React.FC = () => {
                 mutate(values)
             }}
         >
-            <Form className="flex flex-col mt-4 p-4 gap-4 shadow-xl">
+            <Form className="mt-4 flex flex-col gap-4 p-4 shadow-xl">
                 {error && (
                     <span className="text-red-600">{error.props.title}</span>
                 )}
